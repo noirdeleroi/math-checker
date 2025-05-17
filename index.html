@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Question Checker Tool</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+
+  <script>
+  window.MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']]
+    },
+    svg: {
+      fontCache: 'global'
+    }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+</head>
+<body>
+  <h1>Question Checker Tool</h1>
+
+  <div id="topBar">
+    <label for="csvFileInput">Upload CSV:</label>
+    <input type="file" id="csvFileInput" accept=".csv" />
+    <label for="questionSelect">Select Question ID:</label>
+    <select id="questionSelect" onchange="selectById()">
+      <option value="">-- Select --</option>
+    </select>
+  </div>
+
+  <div class="container">
+    <div class="column" id="leftColumn">
+      <div class="data-box" data-field="question_id">Question ID</div>
+      <div class="data-box" data-field="problem_text"></div>
+      <div class="data-box" data-field="solution_text"></div>
+     <div class="data-box" data-field="answer"></div>
+    </div>
+
+    <div class="column" id="middleColumn">
+      <div class="data-box" data-field="code"></div>
+      <div class="data-box" data-field="difficulty"></div>
+      <div class="data-box" data-field="solutiontextexpanded"></div>
+      <div class="data-box" data-field="skills_for_steps"></div>
+    </div>
+
+    <div class="column" id="rightColumn">
+      <label>Edit Problem Text:</label>
+      <textarea id="editBox"></textarea>
+    </div>
+  </div>
+
+  <div id="navigation">
+    <button onclick="prevRow()">Previous</button>
+    <button onclick="nextRow()">Next</button>
+    <button onclick="downloadCSV()">Download CSV</button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
