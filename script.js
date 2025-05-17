@@ -3,17 +3,20 @@ let currentIndex = -1;
 let activeField = null;
 
 window.onload = function () {
-  fetch("full_math_questions.csv")
-    .then((res) => res.text())
-    .then((csvText) => {
-      const parsed = Papa.parse(csvText, {
-        header: true,
-        skipEmptyLines: true,
-      });
-      data = parsed.data;
-      populateSelectMenu();
-      clearUI();
+  document.getElementById("csvFileInput").addEventListener("change", function (e) {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    Papa.parse(file, {
+      header: true,
+      skipEmptyLines: true,
+      complete: function (results) {
+        data = results.data;
+        populateSelectMenu();
+        clearUI();
+      }
     });
+  });
 
   document.querySelectorAll(".data-box").forEach((box) => {
     box.addEventListener("click", function () {
@@ -54,6 +57,7 @@ function selectById() {
   }
 }
 
+
 function displayRow() {
   if (currentIndex < 0 || currentIndex >= data.length) return;
   const row = data[currentIndex];
@@ -63,18 +67,22 @@ function displayRow() {
     const content = row[field] || "";
     box.textContent = content;
 
+    // Only render LaTeX in the first two columns (left and middle)
     const parentId = box.parentElement.id;
     if (parentId === "leftColumn" || parentId === "middleColumn") {
       MathJax.typesetPromise([box]);
     }
   });
 
+  // Update editor with raw content
   if (activeField) {
     document.getElementById("editBox").value = row[activeField] || "";
   } else {
     document.getElementById("editBox").value = "";
   }
 }
+
+
 
 function clearUI() {
   document.querySelectorAll(".data-box").forEach((box) => {
