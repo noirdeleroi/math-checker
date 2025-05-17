@@ -3,7 +3,7 @@ let currentIndex = -1;
 let activeField = null;
 
 window.onload = function () {
-  fetch("questiondb.csv")
+  fetch("full_math_questions.csv")
     .then((res) => res.text())
     .then((csvText) => {
       const parsed = Papa.parse(csvText, {
